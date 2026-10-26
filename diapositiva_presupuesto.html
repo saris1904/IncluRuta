@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Diapositiva Presupuesto - IncluRuta</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 1920px;
+      height: 1080px;
+      background: linear-gradient(135deg, #F8FAFC 0%, #EBF3FA 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1E293B;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 70px 90px;
+      overflow: hidden;
+    }
+
+    /* CABECERA DE LA DIAPOSITIVA */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #CBD5E1;
+      padding-bottom: 24px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .logo-img {
+      width: 84px;
+      height: 84px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(41, 79, 128, 0.12);
+      padding: 4px;
+    }
+
+    .title-group .category-pill {
+      display: inline-block;
+      background: #294F80;
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    .title-group h1 {
+      font-size: 38px;
+      font-weight: 800;
+      color: #1B365D;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .title-group p {
+      font-size: 18px;
+      color: #475569;
+    }
+
+    /* BADGE TOTAL DESTACADO (KPI) */
+    .total-badge-box {
+      background: #1B365D;
+      color: #FFFFFF;
+      padding: 16px 28px;
+      border-radius: 16px;
+      text-align: right;
+      box-shadow: 0 10px 25px rgba(27, 54, 93, 0.2);
+    }
+
+    .total-badge-box .label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #93C5FD;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .total-badge-box .amount {
+      font-size: 36px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+
+    .total-badge-box .usd-ref {
+      font-size: 15px;
+      color: #CBD5E1;
+      font-weight: 600;
+    }
+
+    /* GRID DE LAS 3 TARJETAS */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin: 36px 0;
+    }
+
+    .budget-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 32px 28px;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card-1 { border-top: 8px solid #294F80; }
+    .card-2 { border-top: 8px solid #3B82F6; }
+    .card-3 { border-top: 8px solid #10B981; }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .card-percentage {
+      font-size: 14px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .pct-1 { background: #EAF1FA; color: #294F80; }
+    .pct-2 { background: #EFF6FF; color: #2563EB; }
+    .pct-3 { background: #ECFDF5; color: #059669; }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1E293B;
+      margin-bottom: 8px;
+    }
+
+    .card-amount {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+
+    .amt-1 { color: #294F80; }
+    .amt-2 { color: #2563EB; }
+    .amt-3 { color: #059669; }
+
+    .items-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .items-list li {
+      font-size: 16px;
+      color: #334155;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.35;
+    }
+
+    .items-list li svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .icon-1 { color: #294F80; }
+    .icon-2 { color: #3B82F6; }
+    .icon-3 { color: #10B981; }
+
+    /* FOOTER DE LA DIAPOSITIVA */
+    .slide-footer {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-left: 6px solid #294F80;
+      border-radius: 14px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-note-text {
+      font-size: 15px;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    .footer-note-text strong {
+      color: #1B365D;
+    }
+
+    .kpi-pill {
+      background: #EAF1FA;
+      color: #294F80;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 8px 18px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABECERA -->
+  <header class="slide-header">
+    <div class="header-left">
+      <img src="file:///C:/Users/57312/Documents/IncluRuta/assets/logo-incluruta.png" alt="Logo de IncluRuta" class="logo-img">
+      <div class="title-group">
+        <span class="category-pill">Estudio Económico & Viabilidad</span>
+        <h1>Presupuesto Integral del Proyecto</h1>
+        <p>Inversión requerida para el desarrollo, validación y puesta en marcha de IncluRuta</p>
+      </div>
+    </div>
+
+    <!-- TOTAL DESTACADO -->
+    <div class="total-badge-box">
+      <span class="label">Inversión Total Estimada</span>
+      <div class="amount">$11.370.000 <span style="font-size: 20px; font-weight: 700;">COP</span></div>
+      <div class="usd-ref">Equivalente a ~$2.836 USD</div>
+    </div>
+  </header>
+
+  <!-- GRID DE 3 PILARES -->
+  <main class="cards-grid">
+    
+    <!-- TARJETA 1 -->
+    <div class="budget-card card-1">
+      <div class="card-top">
+        <span class="card-percentage pct-1">86.4% DEL TOTAL</span>
+        <span style="font-size: 14px; font-weight: 700; color: #64748B;">180 Horas Técnicas</span>
+      </div>
+      <h2 class="card-title">1. Desarrollo & Diseño</h2>
+      <div class="card-amount amt-1">$9.825.000 <span style="font-size: 18px; font-weight: 600; color: #64748B;">COP</span></div>
+      
+      <ul class="items-list">
+        <li>
+          <svg class="icon-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Curaduría pedagógica:</strong> 6 módulos con casos reales universitarios.</span>
+        </li>
+        <li>
+          <svg class="icon-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Diseño UX/UI Accesible:</strong> Modo alto contraste y tipografía escalable.</span>
+        </li>
+        <li>
+          <svg class="icon-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Programación Frontend:</strong> Diagnóstico de 16 preguntas y plan de acción.</span>
+        </li>
+        <li>
+          <svg class="icon-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Auditoría WCAG 2.2 AA:</strong> Foco de teclado y lectores NVDA/JAWS.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- TARJETA 2 -->
+    <div class="budget-card card-2">
+      <div class="card-top">
+        <span class="card-percentage pct-2">7.0% DEL TOTAL</span>
+        <span style="font-size: 14px; font-weight: 700; color: #64748B;">Operación Anual</span>
+      </div>
+      <h2 class="card-title">2. Infraestructura & Web</h2>
+      <div class="card-amount amt-2">$795.000 <span style="font-size: 18px; font-weight: 600; color: #64748B;">COP/año</span></div>
+      
+      <ul class="items-list">
+        <li>
+          <svg class="icon-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Nombre de dominio:</strong> Registro <code>.edu.co</code> / <code>.com</code> anual ($75k).</span>
+        </li>
+        <li>
+          <svg class="icon-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Alojamiento en la nube (Hosting):</strong> Servidor rápido con SSL ($240k).</span>
+        </li>
+        <li>
+          <svg class="icon-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Mantenimiento preventivo:</strong> Actualización de recursos y enlaces ($480k).</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- TARJETA 3 -->
+    <div class="budget-card card-3">
+      <div class="card-top">
+        <span class="card-percentage pct-3">6.6% DEL TOTAL</span>
+        <span style="font-size: 14px; font-weight: 700; color: #64748B;">Fase de Validación</span>
+      </div>
+      <h2 class="card-title">3. Validación & Piloto</h2>
+      <div class="card-amount amt-3">$750.000 <span style="font-size: 18px; font-weight: 600; color: #64748B;">COP</span></div>
+      
+      <ul class="items-list">
+        <li>
+          <svg class="icon-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Testeo con estudiantes:</strong> Pruebas de usuario con personas con discapacidad ($500k).</span>
+        </li>
+        <li>
+          <svg class="icon-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <span><strong>Taller con docentes y bienestar:</strong> Socialización y retroalimentación institucional ($250k).</span>
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+  <!-- PIE DE DIAPOSITIVA (NOTA METODOLÓGICA) -->
+  <footer class="slide-footer">
+    <div class="footer-note-text">
+      <strong>📌 Enfoque Académico vs. Comercial:</strong> En el marco de un proyecto universitario, el <strong>86.4% ($9.8M)</strong> corresponde a <em>horas de desarrollo y diseño valoradas del equipo</em> (aporte en especie), dejando un costo directo de bolsillo inferior a <strong>$100.000 COP</strong> (dominio). A nivel comercial, representa una solución SaaS/Consultoría altamente competitiva frente al mercado.
+    </div>
+    <div class="kpi-pill">
+      ⏱️ Plazo de Entrega: 2 a 3 Meses
+    </div>
+  </footer>
+
+</body>
+</html>

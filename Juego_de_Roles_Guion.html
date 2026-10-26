@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>IncluRuta - Dinámica de Juego de Roles y Journey Map</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 16mm 18mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #263445;
+      background: #FFFFFF;
+      font-size: 10.5pt;
+      line-height: 1.5;
+    }
+
+    /* ENCABEZADO INSTITUCIONAL */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid #294F80;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .brand-titles h1 {
+      font-size: 20pt;
+      color: #294F80;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .brand-titles .tagline {
+      font-size: 8.5pt;
+      color: #5A6A80;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 8.5pt;
+      color: #5A6A80;
+    }
+
+    .badge-pill {
+      display: inline-block;
+      background-color: #EAF1FA;
+      color: #294F80;
+      font-weight: 700;
+      font-size: 8pt;
+      padding: 3px 8px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    /* TÍTULO PRINCIPAL DEL DOCUMENTO */
+    .doc-title-box {
+      background: linear-gradient(135deg, #F5F7FA 0%, #EAF1FA 100%);
+      border: 1px solid #D1DBE8;
+      border-left: 5px solid #294F80;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+
+    .doc-title-box h2 {
+      font-size: 14pt;
+      color: #1B365D;
+      margin-bottom: 4px;
+    }
+
+    .doc-title-box p {
+      font-size: 9.5pt;
+      color: #4A5B70;
+      margin: 0;
+    }
+
+    /* SECCIÓN FICHA TÉCNICA */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .spec-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .spec-card .label {
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      color: #64748B;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .spec-card .val {
+      font-size: 9.5pt;
+      color: #1E293B;
+      font-weight: 700;
+    }
+
+    /* ROLES CARDS */
+    .section-heading {
+      font-size: 12pt;
+      color: #294F80;
+      border-bottom: 1.5px solid #E2E8F0;
+      padding-bottom: 4px;
+      margin-top: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .role-box {
+      border: 1px solid #D1DBE8;
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: #FFFFFF;
+    }
+
+    .role-box.role-1 { border-top: 4px solid #C53030; }
+    .role-box.role-2 { border-top: 4px solid #3182CE; }
+    .role-box.role-3 { border-top: 4px solid #2F855A; }
+
+    .role-title {
+      font-size: 10pt;
+      font-weight: 800;
+      color: #1B365D;
+      margin-bottom: 2px;
+    }
+
+    .role-archetype {
+      font-size: 8pt;
+      font-weight: 600;
+      color: #64748B;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .role-desc {
+      font-size: 8.5pt;
+      color: #475569;
+      line-height: 1.35;
+    }
+
+    /* ESCENAS DEL GUIÓN TEATRAL */
+    .scene-block {
+      background: #FFFFFF;
+      border: 1px solid #D1DBE8;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+
+    .scene-header {
+      background: #F1F5F9;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .scene-time {
+      font-size: 8.5pt;
+      font-weight: 800;
+      background: #294F80;
+      color: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .scene-name {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #1E293B;
+    }
+
+    .scene-mood {
+      font-size: 8pt;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .mood-red { background: #FFEEEE; color: #9B1C1C; border: 1px solid #F8B4B4; }
+    .mood-yellow { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+    .mood-green { background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
+
+    .dialogues {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 9.5pt;
+    }
+
+    .speech-line {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .speaker {
+      font-weight: 800;
+      color: #1B365D;
+      font-size: 9pt;
+      text-align: right;
+    }
+
+    .speaker.prof { color: #991B1B; }
+    .speaker.stud { color: #1E40AF; }
+    .speaker.lead { color: #166534; }
+
+    .speech-text {
+      color: #334155;
+    }
+
+    .stage-direction {
+      font-style: italic;
+      color: #64748B;
+      font-size: 8.5pt;
+    }
+
+    /* SALTO DE PÁGINA PARA MATRIZ JOURNEY MAP */
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* TABLA DEL JOURNEY MAP */
+    .journey-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 18px;
+      font-size: 8.5pt;
+    }
+
+    .journey-table th,
+    .journey-table td {
+      border: 1px solid #CBD5E1;
+      padding: 9px 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .journey-table th {
+      background-color: #294F80;
+      color: #FFFFFF;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 8pt;
+      letter-spacing: 0.5px;
+    }
+
+    .journey-table tr:nth-child(even) td {
+      background-color: #F8FAFC;
+    }
+
+    .journey-table .row-header {
+      font-weight: 800;
+      background-color: #F1F5F9;
+      color: #1E293B;
+      width: 18%;
+    }
+
+    .mood-indicator {
+      display: inline-block;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+    }
+
+    /* TIPS Y FOOTER */
+    .callout-box {
+      background-color: #EAF1FA;
+      border-left: 4px solid #294F80;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      font-size: 8.5pt;
+      margin-top: 14px;
+      line-height: 1.4;
+    }
+
+    .callout-box strong {
+      color: #1B365D;
+    }
+
+    .doc-footer {
+      border-top: 1px solid #E2E8F0;
+      padding-top: 10px;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #94A3B8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO -->
+  <header class="header">
+    <div class="brand-left">
+      <img src="file:///C:/Users/57312/Documents/IncluRuta/assets/logo-incluruta.png" alt="Logo IncluRuta" class="logo-img">
+      <div class="brand-titles">
+        <h1>IncluRuta</h1>
+        <span class="tagline">Ruta de Aprendizaje Inclusiva · Educación Superior</span>
+      </div>
+    </div>
+    <div class="doc-meta">
+      <span class="badge-pill">Herramienta Pedagógica</span>
+      <div><strong>Guión de Juego de Roles & Journey Map</strong></div>
+      <div>Duración estimada: 3:00 minutos</div>
+    </div>
+  </header>
+
+  <!-- TÍTULO DEL DOCUMENTO -->
+  <div class="doc-title-box">
+    <h2>Dinámica: "De la Barrera a la Acción en 3 Minutos"</h2>
+    <p>Simulación teatral breve para evidenciar los puntos de dolor del docente, la interacción con la plataforma IncluRuta y la transformación institucional hacia la accesibilidad.</p>
+  </div>
+
+  <!-- FICHA TÉCNICA -->
+  <div class="specs-grid">
+    <div class="spec-card">
+      <span class="label">Duración Total</span>
+      <span class="val">3 minutos (180 seg)</span>
+    </div>
+    <div class="spec-card">
+      <span class="label">Participantes</span>
+      <span class="val">3 roles en escena</span>
+    </div>
+    <div class="spec-card">
+      <span class="label">Público Objetivo</span>
+      <span class="val">Comunidad Académica</span>
+    </div>
+    <div class="spec-card">
+      <span class="label">Objetivo Principal</span>
+      <span class="val">Completar Journey Map</span>
+    </div>
+  </div>
+
+  <!-- ROLES Y PERSONAJES -->
+  <h3 class="section-heading">1. Personajes y Arquetipos en Escena</h3>
+  <div class="roles-grid">
+    <div class="role-box role-1">
+      <div class="role-title">Profesor Martínez</div>
+      <span class="role-archetype">El Docente Abrumado</span>
+      <p class="role-desc">Docente con buena voluntad pero sin formación en accesibilidad digital. Siente temor a perjudicar al estudiante y se siente incomprendido por las cargas del semestre.</p>
+    </div>
+    <div class="role-box role-2">
+      <div class="role-title">Camila</div>
+      <span class="role-archetype">La Estudiante Autónoma</span>
+      <p class="role-desc">Estudiante con discapacidad visual usuaria de lector de pantalla. No busca privilegios ni caridad, sino igualdad de condiciones y materiales digitales legibles.</p>
+    </div>
+    <div class="role-box role-3">
+      <div class="role-title">Valeria</div>
+      <span class="role-archetype">Líder de Bienestar / IncluRuta</span>
+      <p class="role-desc">Enlace institucional. No juzga al docente; ofrece una ruta estructurada de aprendizaje y autodiagnóstico orientativo sin burocracia.</p>
+    </div>
+  </div>
+
+  <!-- GUIÓN TEATRAL DETALLADO -->
+  <h3 class="section-heading">2. Guión Teatral Minuto a Minuto</h3>
+
+  <!-- ESCENA 1 -->
+  <div class="scene-block">
+    <div class="scene-header">
+      <span class="scene-time">0:00 - 0:45</span>
+      <span class="scene-name">Acto I: La Barrera Invisible (Pain Point inicial)</span>
+      <span class="scene-mood mood-red">🔴 Frustración e Incertidumbre</span>
+    </div>
+    <div class="dialogues">
+      <div class="stage-direction">Escenario: Un aula universitaria. El Profesor Martínez sostiene un fajo de hojas fotocopiadas o laptop.</div>
+      <div class="speech-line">
+        <span class="speaker prof">Prof. Martínez:</span>
+        <span class="speech-text"><em>(Con voz apresurada)</em> "Jóvenes, para el examen parcial del próximo viernes deben leer este PDF de 35 páginas con fotocopias que escaneé anoche. ¡Es indispensable para aprobar!"</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker stud">Camila:</span>
+        <span class="speech-text"><em>(Levanta la mano con serenidad)</em> "Profesor Martínez, descargué el archivo al aula virtual, pero mi lector de pantalla solo me dice <em>'imagen no identificada'</em>. El PDF es una fotografía plana sin capa de texto... no puedo acceder a ninguna línea."</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker prof">Prof. Martínez:</span>
+        <span class="speech-text"><em>(Se toma la cabeza, angustiado)</em> "¡Dios mío, Camila! Yo quiero que aprendas, pero no soy ingeniero de sistemas ni la facultad me da presupuesto para asistentes... ¿Qué se supone que haga? ¿Le pido a un compañero que te lea todo?"</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker stud">Camila:</span>
+        <span class="speech-text">"Profe, no quiero depender de favores ni quitarle tiempo a otros. Solo necesito que el material sea accesible para estudiar con autonomía."</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCENA 2 -->
+  <div class="scene-block">
+    <div class="scene-header">
+      <span class="scene-time">0:45 - 1:45</span>
+      <span class="scene-name">Acto II: El Descubrimiento y Diagnóstico en IncluRuta</span>
+      <span class="scene-mood mood-yellow">🟡 Reflexión y Asombro</span>
+    </div>
+    <div class="dialogues">
+      <div class="stage-direction">Valeria (Bienestar) ingresa con una tableta o portátil que muestra la web oficial de IncluRuta.</div>
+      <div class="speech-line">
+        <span class="speaker lead">Valeria:</span>
+        <span class="speech-text"><em>(Con tono acogedor)</em> "¡Momento! La inclusión no se resuelve improvisando ni culpando al docente. Les presento <strong>IncluRuta</strong>, la plataforma que fortalece nuestras capacidades institucionales. Profesor, acompáñeme un minuto."</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker prof">Prof. Martínez:</span>
+        <span class="speech-text"><em>(Intrigado)</em> "¿Una plataforma? Si es otro curso teórico de 40 horas, no tengo tiempo..."</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker lead">Valeria:</span>
+        <span class="speech-text">"Para nada. Son 6 módulos prácticos. Mire el <strong>Módulo 2: Discapacidad Visual</strong>. En solo 10 minutos explica cómo usar plantillas de Word con encabezados reales y cómo aplicar OCR básico sin programas costosos."</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker prof">Prof. Martínez:</span>
+        <span class="speech-text">"¿En serio? ¿Con solo guardar el documento con títulos semánticos ya lo puede leer su software?"</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker lead">Valeria:</span>
+        <span class="speech-text">"¡Exacto! Y ahora hagamos el <strong>Diagnóstico Institucional</strong> de 16 preguntas. Pregunta 1: <em>'¿Los contenidos académicos digitales pueden consultarse con tecnologías de asistencia?'</em>. ¿Qué marcamos, Profe?"</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker prof">Prof. Martínez:</span>
+        <span class="speech-text"><em>(Sincero)</em> "Con total franqueza... 'No por ahora' o 'Parcialmente'."</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALTO DE PÁGINA -->
+  <div class="page-break"></div>
+
+  <!-- ESCENA 3 -->
+  <div class="scene-block">
+    <div class="scene-header">
+      <span class="scene-time">1:45 - 2:30</span>
+      <span class="scene-name">Acto III: El Plan de Acción y Empoderamiento</span>
+      <span class="scene-mood mood-green">🟢 Alivio y Capacidad Instalada</span>
+    </div>
+    <div class="dialogues">
+      <div class="stage-direction">Valeria hace clic en la pantalla en 'Finalizar diagnóstico' y muestra el Plan de Acción generado.</div>
+      <div class="speech-line">
+        <span class="speaker lead">Valeria:</span>
+        <span class="speech-text">"Miren la magia: el sistema no sanciona a la institución, sino que convierte la respuesta en un <strong>Plan de Acción con responsables</strong>. Acción: <em>'Revisar las guías de cátedra de primer semestre con biblioteca'</em>. Responsable: <em>Docente titular y Bienestar</em>. Plazo: <em>2 semanas</em>."</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker prof">Prof. Martínez:</span>
+        <span class="speech-text"><em>(Aliviado y sonriente)</em> "¡Esto sí es una solución real! No me deja solo. Puedo imprimir este reporte hoy mismo y pedir apoyo a mi Decanatura."</span>
+      </div>
+      <div class="speech-line">
+        <span class="speaker stud">Camila:</span>
+        <span class="speech-text"><em>(Satisfecha)</em> "Y yo tendré el material a tiempo para estudiar con autonomía. Gracias por escucharme, Profe."</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCENA 4 -->
+  <div class="scene-block">
+    <div class="scene-header">
+      <span class="scene-time">2:30 - 3:00</span>
+      <span class="scene-name">Acto IV: Cierre y Presentación del Journey Map</span>
+      <span class="scene-mood mood-green">🌟 Transformación Institucional</span>
+    </div>
+    <div class="dialogues">
+      <div class="stage-direction">Los tres personajes se alinean frente al público / jurado. Valeria señala la matriz del Journey Map.</div>
+      <div class="speech-line">
+        <span class="speaker lead">Valeria / Todos:</span>
+        <span class="speech-text"><em>(Dirigiéndose a los evaluadores)</em> "Lo que acaban de vivenciar es el viaje del usuario en <strong>IncluRuta</strong>: transformamos la incertidumbre y el choque con la barrera en un plan de acción concreto y sostenible. Porque la inclusión no se exige: <strong>se aprende y se construye en comunidad</strong>."</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATRIZ DEL CUSTOMER JOURNEY MAP -->
+  <h3 class="section-heading">3. Matriz del Customer Journey Map Resultante</h3>
+  <table class="journey-table">
+    <thead>
+      <tr>
+        <th style="width: 15%;">Dimensión</th>
+        <th style="width: 21%;">Fase 1: El Choque</th>
+        <th style="width: 21%;">Fase 2: El Descubrimiento</th>
+        <th style="width: 21%;">Fase 3: El Diagnóstico</th>
+        <th style="width: 22%;">Fase 4: La Transformación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-header">Puntos de Contacto (Touchpoints)</td>
+        <td>Aula de clase / PDF escaneado / Correo institucional.</td>
+        <td>Portada de IncluRuta / Botones principales / Menú de accesibilidad.</td>
+        <td>Módulo 2 (Visual) / Cuestionario de 16 preguntas orientativas.</td>
+        <td>Tablero del Plan de Acción / PDF descargable e imprimible.</td>
+      </tr>
+      <tr>
+        <td class="row-header">Acción del Usuario (Docente / Directivo)</td>
+        <td>Exige una lectura obligatoria sin verificar accesibilidad digital.</td>
+        <td>Ingresa a la web motivado por la alerta de un estudiante o bienestar.</td>
+        <td>Aprende buenas prácticas de formato y responde con sinceridad.</td>
+        <td>Asigna plazos, define verificaciones y asume compromisos formales.</td>
+      </tr>
+      <tr>
+        <td class="row-header">Pensamientos y Dudas</td>
+        <td><em>"No sé programar ni tengo tiempo para adaptar todo solo."</em></td>
+        <td><em>"¿Será otro curso largo y aburrido que no me sirve?"</em></td>
+        <td><em>"¡Eureka! Un documento estructurado en Word ya es accesible."</em></td>
+        <td><em>"Ahora tengo una ruta clara para presentar a mi decano."</em></td>
+      </tr>
+      <tr>
+        <td class="row-header">Estado Emocional</td>
+        <td><span class="mood-indicator mood-red">🔴 Frustrado / Abrumado</span></td>
+        <td><span class="mood-indicator mood-yellow">🟡 Curioso / Expectante</span></td>
+        <td><span class="mood-indicator mood-green">💡 Iluminado / Empático</span></td>
+        <td><span class="mood-indicator mood-green">🟢 Aliviado / Empoderado</span></td>
+      </tr>
+      <tr>
+        <td class="row-header">Punto de Dolor (Pain Point)</td>
+        <td>Falta de alfabetización digital accesible y miedo a la culpa.</td>
+        <td>Desconocimiento de herramientas institucionales gratuitas.</td>
+        <td>Miedo a que el diagnóstico sea una auditoría punitiva o sanción.</td>
+        <td>Planes que quedan en papel sin responsables ni seguimiento.</td>
+      </tr>
+      <tr>
+        <td class="row-header">Solución de IncluRuta</td>
+        <td>Sensibiliza sobre el modelo social de barreras de entorno.</td>
+        <td>Plataforma ligera, intuitiva y con alto contraste WCAG 2.2 AA.</td>
+        <td>Autoevaluación confidencial guardada localmente (LocalStorage).</td>
+        <td>Generación automática de acciones con plazos y verificaciones.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CONSEJOS DE PUESTA EN ESCENA -->
+  <div class="callout-box">
+    <strong>Recomendaciones para una excelente puesta en escena (3:00 min):</strong>
+    <ul style="margin: 4px 0 0 16px;">
+      <li><strong>Utilería sugerida:</strong> Una carpeta con hojas dobladas para el Docente, un portátil/tableta con IncluRuta abierto para Valeria, y un teléfono con audífonos para Camila.</li>
+      <li><strong>Ritmo ágil:</strong> No te detengas en explicaciones teóricas extensas durante la escena 1; el conflicto debe plantearse en menos de 45 segundos para que la solución con la plataforma brille.</li>
+      <li><strong>Conexión con el público:</strong> Al finalizar, inviten al jurado o auditorio a probar la plataforma con el enlace público o local.</li>
+    </ul>
+  </div>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="doc-footer">
+    <span>IncluRuta · Plataforma de Aprendizaje y Diagnóstico Institucional</span>
+    <span>Documento de Trabajo para Evaluación Académica · 2026</span>
+  </footer>
+
+</body>
+</html>
